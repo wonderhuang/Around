@@ -35,7 +35,7 @@ const (
 	DISTANCE = "200km"
 	//PROJECT_ID = "around-xxxx"
 	//BT_INSTANCE = "around-post"
-	ES_URL      = "http://35.184.204.205:9200/"
+	ES_URL      = "http://35.225.223.161:9200/"
 	BUCKET_NAME = "post-images-303221"
 )
 
