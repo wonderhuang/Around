@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"strconv"
 
+	"cloud.google.com/go/bigtable"
 	"cloud.google.com/go/storage"
 
 	"github.com/pborman/uuid"
@@ -34,11 +35,11 @@ type Post struct {
 }
 
 const (
-	INDEX    = "around"
-	TYPE     = "post"
-	DISTANCE = "200km"
-	//PROJECT_ID = "around-xxxx"
-	//BT_INSTANCE = "around-post"
+	INDEX       = "around"
+	TYPE        = "post"
+	DISTANCE    = "200km"
+	PROJECT_ID  = "around-303803"
+	BT_INSTANCE = "around-post"
 	ES_URL      = "http://104.154.242.152:9200/"
 	BUCKET_NAME = "post-images-303803"
 )
@@ -146,6 +147,27 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 
 	// Save to BigTable.
 	// saveToBigTable(p, id)
+	bt_client, err := bigtable.NewClient(ctx, PROJECT_ID, BT_INSTANCE)
+	if err != nil {
+		panic(err)
+		return
+	}
+
+	tbl := bt_client.Open("post")
+	mut := bigtable.NewMutation()
+	t := bigtable.Now()
+
+	mut.Set("post", "user", t, []byte(p.User))
+	mut.Set("post", "message", t, []byte(p.Message))
+	mut.Set("location", "lat", t, []byte(strconv.FormatFloat(p.Location.Lat, 'f', -1, 64)))
+	mut.Set("location", "lon", t, []byte(strconv.FormatFloat(p.Location.Lon, 'f', -1, 64)))
+
+	err = tbl.Apply(ctx, id, mut)
+	if err != nil {
+		panic(err)
+		return
+	}
+	fmt.Printf("Post is saved to BigTable: %s\n", p.Message)
 
 	fmt.Fprintf(w, "Post recieved: %s\n", p.Message)
 }
