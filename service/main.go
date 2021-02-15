@@ -40,7 +40,7 @@ const (
 	DISTANCE    = "200km"
 	PROJECT_ID  = "around-303803"
 	BT_INSTANCE = "around-post"
-	ES_URL      = "http://104.154.242.152:9200/"
+	ES_URL      = "http://35.225.91.160:9200/"
 	BUCKET_NAME = "post-images-303803"
 )
 
