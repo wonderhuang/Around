@@ -37,9 +37,9 @@ const (
 	INDEX    = "around"
 	TYPE     = "post"
 	DISTANCE = "200km"
-	//PROJECT_ID = "around-xxxx"
+	//PROJECT_ID = "around-303803"
 	//BT_INSTANCE = "around-post"
-	ES_URL      = "http://104.154.242.152:9200/"
+	ES_URL      = "http://34.123.139.165:9200/"
 	BUCKET_NAME = "post-images-303803"
 )
 
@@ -133,7 +133,7 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 
 	_, attrs, err := saveToGCS(ctx, file, BUCKET_NAME, id)
 	if err != nil {
-		http.Error(w, "GCS is not setup Lulu", http.StatusInternalServerError)
+		http.Error(w, "GCS is not setup", http.StatusInternalServerError)
 		fmt.Printf("GCS is not setup %v.\n", err)
 		return
 	}
