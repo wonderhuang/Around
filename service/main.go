@@ -134,7 +134,7 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 
 	_, attrs, err := saveToGCS(ctx, file, BUCKET_NAME, id)
 	if err != nil {
-		http.Error(w, "GCS is not setup Lulu", http.StatusInternalServerError)
+		http.Error(w, "GCS is not setup", http.StatusInternalServerError)
 		fmt.Printf("GCS is not setup %v.\n", err)
 		return
 	}
